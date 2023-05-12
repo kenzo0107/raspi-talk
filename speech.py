@@ -10,7 +10,7 @@ tmpdir = tempfile.mkdtemp()
 tmpfile = os.path.join(tmpdir, 'out.mp3')
 
 
-def speechja(stext):
+def speechja(stext: str):
     tts = gTTS(stext, lang="ja")
     tts.save(tmpfile)
 
