@@ -1,5 +1,4 @@
 import os
-import sys
 import tempfile
 
 from gtts import gTTS
@@ -18,14 +17,13 @@ def speechja(stext: str):
     play(sound)
 
 
-if __name__ == "__main__":
-    args = sys.argv
-    if len(args) == 2:
-        msg = args[1]
-    else:
-        msg = "はい、お元気ですか？"
-    print(msg)
+def main():
+    msg = "はい、お元気ですか？"
     speechja(msg)
 
     beep = AudioSegment.from_mp3("/home/pi/button.mp3")
     play(beep)
+
+
+if __name__ == "__main__":
+    main()
