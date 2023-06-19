@@ -15,7 +15,7 @@ class AudioRecorder:
         self.channel = channel
         self.rate = rate
         self.threshold = threshold
-        self.silent_chunk = 2 * rate / chunk
+        self.silent_chunk = 3 * rate / chunk  # 3 seconds
         self.frames = []
         self.audio = pyaudio.PyAudio()
 
