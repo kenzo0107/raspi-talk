@@ -11,6 +11,9 @@ class LED:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.led_pin, GPIO.OUT)
 
+    def __del__(self):
+        GPIO.output(self.led_pin, GPIO.LOW)
+
     def turn_on(self):
         GPIO.output(self.led_pin, GPIO.HIGH)
 
