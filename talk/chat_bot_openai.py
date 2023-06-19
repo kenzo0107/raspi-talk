@@ -23,7 +23,7 @@ class ChatAPI:
             # NOTE: gpt-3.5-turboは小規模で速度が速く、比較的簡単な自然言語処理タスクに使用されることが多い
             # see: https://platform.openai.com/docs/models/gpt-4
             # pricing: https://openai.com/pricing
-            model="gpt-3.5-turbo",  # https://platform.openai.com/docs/models
+            model="gpt-3.5-turbo-0613",  # https://platform.openai.com/docs/models
             messages=self.context,
             max_tokens=30,
             temperature=0.8,
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         We will take turns writing one sentence at a time.
         If you notice any grammatical errors in my sentences,
         please correct them and explain why you made the correction.
-        Please respond in 100 words or less.
+        Please respond in 30 words or less.
         '''
 
     system_context = {"role": "system", "content": system_content}
