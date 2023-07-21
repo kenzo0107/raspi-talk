@@ -40,6 +40,12 @@ $ python3 handler.py 2>/dev/null
 `2>/dev/null` is added because the alsa related error log becomes noise.
 I want to disable alsa error logs, but I don't know the way.
 
+### In Japanese
+
+```console
+$ python3 handler.py --language ja 2>/dev/null
+```
+
 ## License
 
 [MIT License](https://github.com/kenzo0107/raspi-talk/blob/main/LICENSE)

@@ -1,5 +1,7 @@
 import os
 import time
+import argparse
+import yaml
 
 import gpio
 from audio_player import AudioPlayer
@@ -14,27 +16,22 @@ from speech2text import Speech2Text
 if __name__ == '__main__':
     load_dotenv()
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-la', '--language', default='en')
+    args = parser.parse_args()
+    language_code = 'en-US'
+    if args.language == 'ja':
+        language_code = 'ja-JP'
+
+    with open(f"locales.yml", "r") as file:
+        d = yaml.safe_load(file)
+
     motionSensor = MotionSensor(gpio.MOTION_SENSOR)
     audioPlayer = AudioPlayer()
     beepSoundPlayer = BeepSoundPlayer()
     led = LED(led_pin=gpio.LED)
 
-    system_content = '''
-        #Instructions :
-        You are an American professional English teacher.
-        Please chat with me under the following constraints.
-
-        #Constraints:
-
-        I am a beginner in English.
-        You can choose the topic for our conversation.
-        We will take turns writing one sentence at a time.
-        If you notice any grammatical errors in my sentences,
-        please correct them and explain why you made the correction.
-        Please respond in 30 words or less.
-        '''
-
-    system_context = {"role": "system", "content": system_content}
+    system_context = {"role": "system", "content": d[args.language]['system_content']}
 
     conversation_context = [system_context]
 
@@ -66,7 +63,7 @@ if __name__ == '__main__':
             recorder.save_recording('record.wav')
             led.turn_out()
 
-            speech2text = Speech2Text('record.wav')
+            speech2text = Speech2Text('record.wav', language_code)
 
             try:
                 # 音声ファイル record.wav から Cloud Speech-to-text API でテキストに変換
@@ -91,9 +88,7 @@ if __name__ == '__main__':
 
             except BaseException:
                 # 会話を終了させる旨、chat bot に post する
-                response = chat.post(
-                    "I don't want to talk today, so let's talk again next time."
-                )
+                response = chat.post(d[args.language]['finish_post'])
                 # 以下諸々初期化
                 conversation_context.clear()
                 conversation_context.append(system_context)
@@ -104,5 +99,5 @@ if __name__ == '__main__':
 
         if response:
             print('=============== bot response: {}'.format(response))
-            audioPlayer.text2speech(response)
+            audioPlayer.text2speech(response, args.language)
         time.sleep(0.5)

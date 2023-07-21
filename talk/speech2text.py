@@ -9,9 +9,9 @@ class Speech2Text:
     def __init__(
         self,
         audio_filename,
+        language_code='en-US',
         credentials_filepath='cloud-speech-to-text-api-key.json',
         rate=44100,
-        language_code='en-US',
     ):
         self.audio_filename = audio_filename
         self.language_code = language_code
