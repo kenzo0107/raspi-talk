@@ -25,9 +25,6 @@ class ChatAPI:
             # pricing: https://openai.com/pricing
             model="gpt-3.5-turbo-0613",  # https://platform.openai.com/docs/models
             messages=self.context,
-            max_tokens=30,
-            temperature=0.8,
-            n=1,
         )
         return r
 
